@@ -1,0 +1,60 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Register" %>
+
+<%= form_with(model: @user, local: true, url: sign_up_path) do |form| %>
+	<div class="container mt-5 mb-5 d-flex justify-content-center">
+		<div class="card px-1 py-4">
+			<div class="card-body">
+				<h6 class="information mt-4">Let's register you in</h6>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="email">Email</label>
+							<%= form.text_field :email, class: "form-control", placeholder: "email" %>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-3">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="name">Name</label>
+							<%= form.text_field :name, class: "form-control", placeholder: "name" %>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-3">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="password">Password</label>
+							<%= form.password_field :password, class: "form-control", placeholder: "***" %>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-3">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="password">Retype Password</label>
+							<%= form.password_field :password_confirmation, class: "form-control", placeholder: "***" %>
+						</div>
+					</div>
+				</div>
+				<%# show flash %>
+				<% if flash[:error] %>
+					<div class="alert alert-danger mt-3" role="alert">
+						<%= flash[:error] %>
+					</div>
+				<%end%>
+				<%= form.submit "Register", class: "btn btn-primary btn-block confirm-button mt-3" %>
+				<div class=" d-flex flex-column text-center px-5 mt-3 mb-3"> 
+					<small class="agree-text">Have account?</small> 
+					<a href=<%= login_path %>
+						class="terms">
+						Log in
+					</a>
+				</div> 
+				
+			</div>
+		</div>
+	</div>
+<%end%>
