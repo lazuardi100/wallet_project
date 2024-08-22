@@ -90,8 +90,8 @@ class SessionsController < ApplicationController
 
   # DELETE /sessions/1 or /sessions/1.json
   def destroy
-    current_user = Session.where(session_token: session[:session_token]).first
-    current_user.destroy!
+    # current_user = Session.where(session_token: session[:session_token]).first
+    # current_user.destroy!
 
     session.clear
     redirect_to login_path

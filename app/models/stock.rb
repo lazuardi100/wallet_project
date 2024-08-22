@@ -1,4 +1,4 @@
-class Team < ApplicationRecord
+class Stock < ApplicationRecord
   has_one :wallet
 
   def create_wallet
