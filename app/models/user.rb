@@ -5,9 +5,6 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   def create_wallet
-    
-    binding.pry
-    
     Wallet.create!(
       walletable_type: self.class.name,
       walletable_id: self.id,

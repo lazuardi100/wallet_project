@@ -11,7 +11,18 @@
     </div>
   <% end %>
 
+  <p> Balance: <%= number_to_currency(@wallet.balance) %> </p>
+
+  <div class="form-group">
+    <%= form.label :amount, class: "form-label" %>
+    <%= form.number_field :amount, class: "form-control" %>
+  </div>
+
+  <div class="mt-3 form-group">
+    <%= form.label :recipient_address, class: "form-label" %>
+    <%= form.text_field :recipient_address, class: "form-control" %>
+  </div>
   <div>
-    <%= form.submit %>
+    <%= form.submit "Send Money", class: "btn btn-primary mt-3" %>
   </div>
 <% end %>

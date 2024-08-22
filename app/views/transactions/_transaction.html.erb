@@ -1,2 +1,33 @@
 <div id="<%= dom_id transaction %>">
+  <p>
+    <strong>Amount:</strong>
+    <%= number_to_currency(transaction.amount) %>
+  </p>
+
+  <%if transaction.source_wallet_address == @wallet.wallet_address %>
+    <p>
+      <strong>Transaction type:</strong>
+      Sent
+    </p>
+    <p>
+      <strong>Recipient address:</strong>
+      <%= transaction.target_wallet_address %>
+    </p>
+  <% else %>
+    <p>
+      <strong>Transaction type:</strong>
+      Received
+    </p>
+
+    <p>
+      <strong>Sender address:</strong>
+      <%= transaction.source_wallet_address %>
+    </p>
+  <% end %>
+
+  <p>
+    <strong>Transaction date:</strong>
+    <%= transaction.created_at %>
+  </p>
+
 </div>

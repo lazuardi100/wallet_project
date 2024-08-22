@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_22_022018) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_22_044837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,11 +37,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_22_022018) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "transaction_validations", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.text "hash_validation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transaction_id"], name: "index_transaction_validations_on_transaction_id"
+  end
+
   create_table "transactions", force: :cascade do |t|
-    t.text "source_wallet_address", null: false
-    t.text "target_wallet_address", null: false
+    t.text "source_wallet_address"
+    t.text "target_wallet_address"
     t.decimal "amount"
-    t.string "transaction_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -61,9 +68,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_22_022018) do
     t.decimal "balance", precision: 15, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "wallet_address", null: false
+    t.text "wallet_address", default: "9ad2dcb9035c20af8aa69bd4ae258b7ce53d2f83b548968d2d514f11fb97d08b", null: false
     t.index ["walletable_type", "walletable_id"], name: "index_wallets_on_walletable"
   end
 
   add_foreign_key "sessions", "users"
+  add_foreign_key "transaction_validations", "transactions"
 end

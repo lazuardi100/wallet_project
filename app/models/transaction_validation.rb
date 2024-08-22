@@ -1,0 +1,2 @@
+class TransactionValidation < ApplicationRecord
+end

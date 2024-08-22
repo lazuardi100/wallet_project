@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Top Up" %>
+
+<p>Balance</p>
+<h1>
+  <%= number_to_currency(@wallet.balance) %>
+</h1>
+<%= form_tag top_up_create_path, method: :post do %>
+  <div class="form-group">
+    <%= label_tag :amount, "Amount" %>
+    <%= text_field_tag :amount, nil, class: "form-control" %>
+  </div>
+
+  <%= submit_tag "Top up", class: "btn btn-primary mt-3" %>
+<% end %>

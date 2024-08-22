@@ -2,15 +2,31 @@
 
 <% content_for :title, "Transactions" %>
 
-<h1>Transactions</h1>
+<p>Balance</p>
+<h1>
+  <%= number_to_currency(@wallet.balance) %>
+</h1>
 
-<div id="transactions">
+<p>wallet address</p>
+<h4>
+  <%= @wallet.wallet_address %>
+</h4>
+
+
+<%= link_to "New transaction", new_transaction_path, class: "btn btn-primary" %>
+<%= link_to "Top up", top_up_path, class: "btn btn-primary" %>
+<hr>
+<div id="transactions" class="mt-3">
+  <p>Transactions</p>
   <% @transactions.each do |transaction| %>
-    <%= render transaction %>
+      <div class="card">
+        <div class="card-body">
+          <%= render transaction %>
+          <%= link_to "Show this transaction", transaction %>
+        </div>
+      </div>
     <p>
-      <%= link_to "Show this transaction", transaction %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New transaction", new_transaction_path %>
