@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_22_044837) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_23_060424) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,6 +35,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_22_044837) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "transaction_books", force: :cascade do |t|
+    t.bigint "wallet_id", null: false
+    t.bigint "transaction_id", null: false
+    t.decimal "debit"
+    t.decimal "credit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transaction_id"], name: "index_transaction_books_on_transaction_id"
+    t.index ["wallet_id"], name: "index_transaction_books_on_wallet_id"
   end
 
   create_table "transaction_validations", force: :cascade do |t|
@@ -73,5 +84,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_22_044837) do
   end
 
   add_foreign_key "sessions", "users"
+  add_foreign_key "transaction_books", "transactions"
+  add_foreign_key "transaction_books", "wallets"
   add_foreign_key "transaction_validations", "transactions"
 end

@@ -1,5 +1,5 @@
 class Transaction < ApplicationRecord
-  after_create :create_transaction_validation
+  after_create :create_transaction_validation, :create_transaction_books
 
   def create_transaction_validation
     details = {
@@ -15,4 +15,20 @@ class Transaction < ApplicationRecord
       hash_validation: hashed_details
     )
   end
+
+  def create_transaction_books
+    source_wallet = Wallet.find_by(address: self.source_wallet_address)
+    target_wallet = Wallet.find_by(address: self.target_wallet_address)
+
+    TransactionBook.create!(
+      wallet_id: source_wallet.id,
+      transaction_id: self.id,
+      debit: self.amount
+    ) if self.source_wallet_address.present?
+
+    TransactionBook.create!(
+      wallet_id: target_wallet.id,
+      transaction_id: self.id,
+      credit: self.amount
+    ) if self.target_wallet_address.present?
 end

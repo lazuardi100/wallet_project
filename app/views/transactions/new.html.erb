@@ -7,5 +7,5 @@
 <br>
 
 <div>
-  <%= link_to "Back to transactions", transactions_path %>
+  <%= link_to "Back to transactions", polymorphic_path([@parent, :transactions]), class: "btn btn-secondary" %>
 </div>

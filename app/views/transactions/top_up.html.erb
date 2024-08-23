@@ -6,7 +6,7 @@
 <h1>
   <%= number_to_currency(@wallet.balance) %>
 </h1>
-<%= form_tag top_up_create_path, method: :post do %>
+<%= form_tag polymorphic_path([@parent, :top_up_create]), method: :post do %>
   <div class="form-group">
     <%= label_tag :amount, "Amount" %>
     <%= text_field_tag :amount, nil, class: "form-control" %>
@@ -14,3 +14,5 @@
 
   <%= submit_tag "Top up", class: "btn btn-primary mt-3" %>
 <% end %>
+
+<%= link_to "Back to transactions", polymorphic_path([@parent, :transactions]), class: "btn btn-secondary mt-3" %>

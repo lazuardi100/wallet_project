@@ -1,9 +1,10 @@
 class TransactionsController < ApplicationController
+  before_action :set_parent
   before_action :set_transaction, only: %i[ show edit update destroy ]
 
   # GET /transactions or /transactions.json
   def index
-    @wallet = current_user.my_wallet
+    @wallet = @parent.my_wallet
     @transactions = Transaction
       .where("source_wallet_address = :wallet_address OR target_wallet_address = :wallet_address", wallet_address: @wallet.wallet_address)
   end
@@ -15,16 +16,16 @@ class TransactionsController < ApplicationController
   # GET /transactions/new
   def new
     @transaction = Transaction.new
-    @wallet = current_user.my_wallet
+    @wallet = @parent.my_wallet
   end
 
   def top_up
-    @wallet = current_user.my_wallet
+    @wallet = @parent.my_wallet
     @transaction = Transaction.new
   end
 
   def create_top_up
-    @wallet = current_user.my_wallet
+    @wallet = @parent.my_wallet
     begin
       ActiveRecord::Base.transaction do
         transaction = Transaction.new(
@@ -36,7 +37,7 @@ class TransactionsController < ApplicationController
         
         if transaction.save
           @wallet.update!(balance: @wallet.balance + params[:amount].to_i)
-          redirect_to transactions_url, notice: "Transaction was successfully created."
+          redirect_to polymorphic_path([@parent, :transactions]), notice: "Top up was successfully created."
         else
           render :top_up, status: :unprocessable_entity
         end
@@ -53,7 +54,7 @@ class TransactionsController < ApplicationController
   # POST /transactions or /transactions.json
   def create
     transaction_params = params.require(:transaction).permit(:recipient_address, :amount)
-    @wallet = current_user.my_wallet
+    @wallet = @parent.my_wallet
 
     target_wallet = Wallet.find_by(wallet_address: transaction_params[:recipient_address])
     if target_wallet.nil?
@@ -74,13 +75,13 @@ class TransactionsController < ApplicationController
           @wallet.update!(balance: after_balance)
 
           target_wallet.update!(balance: target_wallet.balance + transaction_params[:amount].to_i)
-          redirect_to transactions_url, notice: "Transaction was successfully created."
+          redirect_to polymorphic_path([@parent, :transactions]), notice: "Transaction was successfully created."
         else
-          redirect_to new_transaction_url, notice: "Transaction failed."
+          redirect_to new_polymorphic_path([@parent, :transactions]), notice: "Transaction was not created."
         end
       end
     rescue => e
-      redirect_to new_transaction_url, notice: e.message
+      redirect_to new_polymorphic_path([@parent, :transactions]), notice: "Transaction was not created."
     end
   end
 
@@ -111,6 +112,16 @@ class TransactionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
       # @transaction = Transaction.find(params[:id])
+    end
+
+    def set_parent
+      if params[:team_id].present?
+        @parent = Team.find(params[:team_id])
+      elsif params[:user_id].present?
+        @parent = current_user
+      else
+        @parent = current_user
+      end
     end
 
     # Only allow a list of trusted parameters through.

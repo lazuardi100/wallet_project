@@ -3,12 +3,17 @@
 <% content_for :title, "Users" %>
 
 <div id="users">
-  <% @users.each do |user| %>
-    <%= render user %>
+  <div>
     <p>
-      <%= link_to "Show this user", user %>
+      <strong>Name:</strong>
+      <%= @user.name %>
     </p>
-  <% end %>
-</div>
 
-<%= link_to "New user", new_user_path %>
+    <p>
+      <strong>Email:</strong>
+      <%= @user.email %>
+    </p>
+
+    <%= link_to "Transactions", user_transactions_path(@user), class: "btn btn-primary" %>
+  </div>
+</div>

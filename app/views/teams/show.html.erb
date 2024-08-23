@@ -1,7 +1,7 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @team %>
-
+<%= link_to "Transactions", team_transactions_path(@team), class: "btn btn-primary" %>
 <div>
   <%= link_to "Edit this team", edit_team_path(@team) %> |
   <%= link_to "Back to teams", teams_path %>

@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
-  resources :transactions
-  get "transactions_top_up" => "transactions#top_up", as: :top_up
-  post "transactions_top_up" => "transactions#create_top_up", as: :top_up_create
-  resources :teams
-  resources :users
+  # resources :transactions
+  # get "transactions_top_up" => "transactions#top_up", as: :top_up
+  # post "transactions_top_up" => "transactions#create_top_up", as: :top_up_create
+  resources :teams, :users do
+    resources :transactions
+    get "transactions_top_up" => "transactions#top_up", as: :top_up
+    post "transactions_top_up" => "transactions#create_top_up", as: :top_up_create
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -21,5 +24,5 @@ Rails.application.routes.draw do
 
   get "logout" => "sessions#destroy", as: :logout
   # Defines the root path route ("/")
-  root "users#index"
+  root :to => "transactions#index"
 end
