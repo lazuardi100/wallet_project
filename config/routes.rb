@@ -23,6 +23,14 @@ Rails.application.routes.draw do
   post "register" => "sessions#sign_up", as: :sign_up
 
   get "logout" => "sessions#destroy", as: :logout
+
+  # api
+  namespace :api do
+    post "login" => "auth#login"
+    post "transfer" => "transfer#create"
+    post "check_balance" => "profile#check_balance"
+    get "all_profile" => "profile#all_profile"
+  end
   # Defines the root path route ("/")
   root :to => "transactions#index"
 end

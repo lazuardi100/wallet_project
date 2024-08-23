@@ -36,7 +36,6 @@ class TransactionsController < ApplicationController
     
         
         if transaction.save
-          @wallet.update!(balance: @wallet.balance + params[:amount].to_i)
           redirect_to polymorphic_path([@parent, :transactions]), notice: "Top up was successfully created."
         else
           render :top_up, status: :unprocessable_entity
@@ -71,10 +70,6 @@ class TransactionsController < ApplicationController
         )
     
         if transaction.save
-          after_balance = @wallet.balance - transaction_params[:amount].to_i
-          @wallet.update!(balance: after_balance)
-
-          target_wallet.update!(balance: target_wallet.balance + transaction_params[:amount].to_i)
           redirect_to polymorphic_path([@parent, :transactions]), notice: "Transaction was successfully created."
         else
           redirect_to new_polymorphic_path([@parent, :transactions]), notice: "Transaction was not created."
