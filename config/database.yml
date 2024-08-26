@@ -26,3 +26,7 @@ test:
 # ensure the database is located in a persisted volume.
 production:
   <<: *default
+  database: wallet
+  username: wallet_owner
+  password: tRS2LlqAUxX8
+  host: ep-withered-sun-a5ohqpe9.us-east-2.aws.neon.tech
