@@ -8,7 +8,7 @@ class Api::BaseController < ApplicationController
     if session_token.present?
       session = Session.find_by(session_token: session_token)
       if session.present?
-        if session.created_at > 1.day.ago
+        if session.created_at < 1.day.ago
           session.destroy
           render json: { error: "Session expired." }
         else

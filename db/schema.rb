@@ -79,7 +79,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_23_060424) do
     t.decimal "balance", precision: 15, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "wallet_address", default: "9ad2dcb9035c20af8aa69bd4ae258b7ce53d2f83b548968d2d514f11fb97d08b", null: false
+    t.text "wallet_address", default: "ddbc18ee437c45949d24bad8936319bdca300877290069db8c80444ae827be22", null: false
     t.index ["walletable_type", "walletable_id"], name: "index_wallets_on_walletable"
   end
 

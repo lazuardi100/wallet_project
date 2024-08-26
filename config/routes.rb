@@ -30,6 +30,9 @@ Rails.application.routes.draw do
     post "transfer" => "transfer#create"
     post "check_balance" => "profile#check_balance"
     get "all_profile" => "profile#all_profile"
+    post "price_all" => "rapid_api#price_all"
+    post "price" => "rapid_api#price"
+    post "prices" => "rapid_api#prices"
   end
   # Defines the root path route ("/")
   root :to => "transactions#index"
