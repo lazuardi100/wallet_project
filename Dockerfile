@@ -31,7 +31,8 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install application gems
-COPY Gemfile ./
+COPY Gemfile Gemfile.lock ./
+RUN bundle config set frozen false
 RUN gem install bundler
 RUN bundle install 
     # rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
